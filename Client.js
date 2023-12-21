@@ -6,9 +6,11 @@ class Client extends EventEmitter {
     constructor(name, color) {
         super()
     }
+    
     sendChat = (msg) => {
         this.cl.send(`42["message",{"content":"${msg}"}]`)
     }
+    
     connect = (aname, acolor) => {
         this.cl = new ws("wss://chat.owo69.me/socket.io/?EIO=4&transport=websocket");
         this.cl.addEventListener("message", (evt) => {
