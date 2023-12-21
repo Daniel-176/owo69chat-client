@@ -1,11 +1,13 @@
 # Client for Lamp's Chat
-events:
-    - connected
-        (when client connects)
-    - message
-        (chat messages)
+### Events:
+```
+- connected
+    (when client connects)
+- message
+    (chat messages)
+```
 
-Message Structure:
+### Message Structure:
 ```
 -content (message content)
 -user:  (who sent message)
