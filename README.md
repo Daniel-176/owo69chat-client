@@ -6,11 +6,13 @@ events:
         (chat messages)
 
 Message Structure:
-    -content (message content)
-    -user:  (who sent message)
-        -name
-        -agent
-        -color
-        -uuid
-    -timestamp (when message was sent)
-    -_id (message id maybe?)
+```
+-content (message content)
+-user:  (who sent message)
+    -name
+    -agent
+    -color
+    -uuid
+-timestamp (when message was sent)
+-_id (message id maybe?)
+```
