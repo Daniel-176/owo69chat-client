@@ -7,7 +7,10 @@ client.on("connected", () => {
 })
 
 client.on("message", msg => {
-    console.log(msg.content, msg.user.name)
+    //example of msg usage:
+    if(msg.content.startsWith("!hi")) {
+        client.sendChat(`Hello! [${msg.user.uuid}]${msg.user.name}`)
+    }
 })
 
-client.connect("hello", "#5555ff")
+client.connect("Client", "#5555ff")

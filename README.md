@@ -15,4 +15,5 @@ Message Structure:
     -uuid
 -timestamp (when message was sent)
 -_id (message id maybe?)
+
 ```
