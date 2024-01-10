@@ -17,14 +17,14 @@ class Client extends EventEmitter {
         this.cl.addEventListener("message", (evt) => {
             try {
                 // console.log(evt.data)
-                // if(evt.data == "2") this.cl.send("3");
+                if(evt.data == "2") return;
                 var jsondata = (evt.data.startsWith("0{")) ? JSON.parse(evt.data.substring(1)) : JSON.parse(evt.data.substring(2))
                 var rawdata = (evt.data).toString()
                 if(rawdata.startsWith("0")) {
                     this.cl.send("40")
                     setInterval(() => {
                         this.cl.send("3")
-                        console.log("3")
+                        // console.log("3")
                     }, jsondata.pingInterval);
                     
                 }
