@@ -5,6 +5,7 @@ const { EventEmitter } = require('events')
 class Client extends EventEmitter {
     constructor(name, color) {
         super()
+        this.uuid = randomUUID()
     }
     
     sendChat = (msg) => {
@@ -15,34 +16,37 @@ class Client extends EventEmitter {
         this.cl = new ws("wss://chat.owo69.me/socket.io/?EIO=4&transport=websocket");
         this.cl.addEventListener("message", (evt) => {
             try {
-                var jsondata = (evt.data.startsWith("0")) ? JSON.parse(evt.data.substring(1)) : JSON.parse(evt.data.substring(2))
-                
-                if(evt.data.startsWith("0")) {
+                // console.log(evt.data)
+                // if(evt.data == "2") this.cl.send("3");
+                var jsondata = (evt.data.startsWith("0{")) ? JSON.parse(evt.data.substring(1)) : JSON.parse(evt.data.substring(2))
+                var rawdata = (evt.data).toString()
+                if(rawdata.startsWith("0")) {
                     this.cl.send("40")
-                    var timees = 2
-                    setInterval(async () => {
-                        this.cl.send(timees)
-                        timees++
+                    setInterval(() => {
+                        this.cl.send("3")
+                        console.log("3")
                     }, jsondata.pingInterval);
+                    
                 }
-                if(evt.data.startsWith("40")) {
+                if(rawdata.startsWith("40")) {
                     this.cl.send(`42[
                         "user",
                         {
-                        "uuid": "${randomUUID()}",
+                        "uuid": "${this.uuid}",
                         "secret": "${randomUUID()}",
                         "name": "${aname || "Client"}",
                         "color": "${acolor || "#5555ff"}"
                         }
                     ]`)
                 }
-                if(evt.data.startsWith(`42["users`)) {
+                if(rawdata.startsWith(`42["users`)) {
                     this.emit("connected", "")
                 }
-                if(evt.data.startsWith(`42["message`)) {
-                    if(JSON.stringify(jsondata[1]).startsWith("{")) this.emit("message", jsondata[1]);
+                if(rawdata.startsWith(`42["message"`)) {
+                    // console.log(JSON.stringify(jsondata[1]))
+                    if(JSON.stringify(jsondata[1]).startsWith(`{"`)) this.emit("message", jsondata[1]);
                 }
-            } catch(e) {console.log("Error while processing messages.")}
+            } catch(e) {console.log("Error while processing messages. "+e+" - "+evt.data)}
         })
     }
 }
